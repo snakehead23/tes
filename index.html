@@ -3,270 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[NAMA FILM] | Segera Tayang</title>
+    <title>[NAMA FILM] | Didukung oleh TMDb</title>
     <style>
-        /* --- GENERAL STYLING --- */
+        /* CSS DARI CONTOH SEBELUMNYA - TIDAK ADA PERUBAHAN BESAR */
         :root {
             --netflix-red: #E50914;
             --netflix-dark-gray: #141414;
-            --netflix-light-gray: #e5e5e5;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: var(--netflix-dark-gray);
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             color: white;
             overflow-x: hidden;
         }
-
-        a {
-            color: white;
-            text-decoration: none;
-        }
-
-        /* --- HEADER --- */
         .main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 50px;
-            z-index: 100;
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 20px 50px; z-index: 100;
             background-image: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0));
         }
-
-        .logo {
-            font-size: 2.5rem;
-            color: var(--netflix-red);
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        
-        /* GANTI DENGAN URL LOGO FILM ANDA */
-        .logo-img {
-            width: 120px;
-        }
-
-        /* --- HERO SECTION --- */
+        .logo-img { width: 120px; }
         .hero {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
+            position: relative; height: 90vh; /* Sedikit lebih kecil agar carousel terlihat */
+            display: flex; align-items: center; justify-content: flex-start;
         }
-
-        .hero-video-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 1;
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 1;
         }
-
         .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.8) 30%, transparent 70%), linear-gradient(to top, rgba(0,0,0,0.8) 10%, transparent 40%);
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.8) 30%, transparent 70%), linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 50%);
             z-index: 2;
         }
-
         .hero-content {
-            position: relative;
-            z-index: 3;
-            padding: 50px;
-            max-width: 600px;
+            position: relative; z-index: 3;
+            padding: 50px; max-width: 600px;
         }
-
-        .hero-title {
-            /* Jika menggunakan gambar logo, sembunyikan teks ini */
-            /* font-size: 5rem;
-            font-weight: bold; */
-        }
-        
-        /* GANTI DENGAN URL LOGO/JUDUL PNG FILM ANDA */
         .hero-title-img {
-            width: 100%;
-            max-width: 500px;
+            width: 100%; max-width: 500px;
             margin-bottom: 20px;
         }
-
         .hero-synopsis {
-            font-size: 1.2rem;
-            line-height: 1.5;
+            font-size: 1.1rem; line-height: 1.5;
             margin-bottom: 30px;
+            max-width: 500px;
         }
-
         .hero-buttons .btn {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border-radius: 4px;
-            border: none;
-            margin-right: 15px;
-            cursor: pointer;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            padding: 15px 30px; font-size: 1.2rem;
+            border-radius: 4px; border: none; margin-right: 15px;
+            cursor: pointer; font-weight: bold;
+            display: inline-flex; align-items: center; justify-content: center;
         }
-
-        .btn-play {
-            background-color: white;
-            color: black;
-        }
-
-        .btn-info {
-            background-color: rgba(109, 109, 110, 0.7);
-            color: white;
-        }
-
-        .btn svg {
-            margin-right: 10px;
-        }
-
-        /* --- CAROUSEL SECTION --- */
+        .btn-play { background-color: white; color: black; }
+        .btn-info { background-color: rgba(109, 109, 110, 0.7); color: white; }
+        .btn svg { margin-right: 10px; }
         .carousel-section {
             padding: 0 50px 50px 50px;
-            margin-top: -100px; /* Menarik carousel ke atas agar sedikit menimpa hero */
-            position: relative;
-            z-index: 5;
+            margin-top: -150px; /* Menarik carousel ke atas */
+            position: relative; z-index: 5;
         }
-
         .carousel-title {
-            font-size: 1.8rem;
-            font-weight: bold;
+            font-size: 1.8rem; font-weight: bold;
             margin-bottom: 20px;
         }
-
         .carousel-container {
-            display: flex;
-            overflow-x: auto;
-            overflow-y: hidden;
-            padding-bottom: 20px; /* Ruang untuk shadow & scrollbar */
-            scrollbar-width: thin;
-            scrollbar-color: #333 #141414;
+            display: flex; overflow-x: auto; overflow-y: hidden;
+            padding-bottom: 20px;
+            scrollbar-width: none; /* Firefox */
         }
-        
-        .carousel-container::-webkit-scrollbar {
-            height: 8px;
-        }
-        
-        .carousel-container::-webkit-scrollbar-thumb {
-            background-color: #333;
-            border-radius: 10px;
-        }
-
+        .carousel-container::-webkit-scrollbar { display: none; /* Chrome, Safari */ }
         .card {
-            flex: 0 0 18%; /* Lebar setiap card */
-            margin-right: 10px;
-            border-radius: 4px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out, z-index 0.2s ease-in-out;
+            flex: 0 0 16%; /* Sedikit lebih kecil agar muat lebih banyak */
+            margin-right: 10px; border-radius: 4px;
+            overflow: hidden; cursor: pointer;
+            transition: transform 0.2s ease-in-out;
             position: relative;
         }
-
-        .card:hover {
-            transform: scale(1.15);
-            z-index: 10;
+        .card:hover { transform: scale(1.1); }
+        .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .tmdb-logo {
+            padding: 50px; text-align: center;
         }
-
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+        .tmdb-logo img {
+            width: 150px;
         }
-        
-        .card-actor {
-            flex: 0 0 15%; /* Sedikit lebih kecil untuk foto portrait */
-        }
-        
-        .card-actor .card-title {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 10px;
-            text-align: center;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            font-size: 1rem;
-            font-weight: bold;
-        }
-
-        /* --- FOOTER --- */
-        .main-footer {
-            padding: 50px 15%;
-            border-top: 1px solid #333;
-            margin-top: 50px;
-        }
-
-        .footer-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            list-style: none;
-        }
-
-        .footer-links a {
-            color: #757575;
-            font-size: 0.9rem;
-        }
-        
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-
-        .footer-copy {
-            color: #757575;
-            font-size: 0.8rem;
-            margin-top: 30px;
-        }
-
     </style>
 </head>
 <body>
 
     <header class="main-header">
-        <!-- GANTI DENGAN URL LOGO FILM ANDA (VERSI KECIL) -->
         <a href="#" class="logo">
-             <img src="https://image.tmdb.org/t/p/original/wwemzKWzjKYJFfCeiB57q3r4Bcm.svg" alt="Logo Film" class="logo-img">
+             <img src="https://image.tmdb.org/t/p/original/wwemzKWzjKYJFfCeiB57q3r4Bcm.svg" alt="Logo Netflix" class="logo-img">
         </a>
     </header>
 
     <main>
         <!-- ============== HERO SECTION ============== -->
         <section class="hero">
-            <!-- GANTI DENGAN URL VIDEO TRAILER/BACKGROUND ANDA -->
-            <video class="hero-video-bg" autoplay muted loop poster="https://via.placeholder.com/1920x1080/141414/000000?text=Loading...">
-                <!-- Video diambil dari Pexels sebagai contoh -->
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-fire-and-smoke-on-a-black-background-4k-42354-large.mp4" type="video/mp4">
-            </video>
+            <!-- Gambar latar akan diisi oleh film pertama dari API -->
+            <img src="" alt="Hero Background" class="hero-bg" id="hero-bg-img">
 
             <div class="hero-content">
-                <!-- GANTI DENGAN URL GAMBAR JUDUL FILM ANDA (BACKGROUND TRANSPARAN) -->
-                <img src="https://occ-0-2794-2219.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABazyE8454i30bs9ZJbrlF2T52Cj3br2iQibQ0bpj0QZkCg_Y1qobwFostu1w1_mBSqGyf6i2eDMN4Y0jT14fDqIqDx1v9S8nDg_w4M8c9tMhY2xSDA5_8TKAuAXC8A00v9GSAa-bCqeaJ207Gq4I2C_Vfw.png?r=836" alt="Judul Film" class="hero-title-img">
-                
-                <p class="hero-synopsis">
-                    <!-- GANTI DENGAN SINOPSIS FILM ANDA -->
-                    Seorang agen rahasia yang terpaksa kembali dari masa pensiunnya harus berhadapan dengan musuh dari masa lalu yang mengancam untuk mengungkap konspirasi global. Dalam waktu yang terbatas, ia harus berpacu dengan waktu untuk menyelamatkan dunia dan melindungi orang-orang yang ia cintai.
-                </p>
+                <h1 id="hero-title" style="font-size: 4rem; margin-bottom: 20px;"></h1>
+                <p id="hero-synopsis" class="hero-synopsis"></p>
                 <div class="hero-buttons">
                     <button class="btn btn-play">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l15 8-15 8z"></path></svg>
-                        Tonton Trailer
+                        Putar
                     </button>
                     <button class="btn btn-info">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"></path></svg>
@@ -279,75 +124,112 @@
         <!-- ============== CAROUSEL SECTION ============== -->
         <section class="carousel-section">
             
-            <!-- --- Carousel 1: Klip & Momen Penting --- -->
-            <h2 class="carousel-title">Klip & Momen Penting</h2>
-            <div class="carousel-container">
-                <!-- GANTI SEMUA GAMBAR DI BAWAH INI -->
-                <div class="card"><img src="https://via.placeholder.com/400x225/FF0000/FFFFFF?text=Adegan+Aksi" alt="Klip 1"></div>
-                <div class="card"><img src="https://via.placeholder.com/400x225/00FF00/FFFFFF?text=Momen+Dramatis" alt="Klip 2"></div>
-                <div class="card"><img src="https://via.placeholder.com/400x225/0000FF/FFFFFF?text=Pertemuan+Penting" alt="Klip 3"></div>
-                <div class="card"><img src="https://via.placeholder.com/400x225/FFFF00/000000?text=Ledakan+Besar" alt="Klip 4"></div>
-                <div class="card"><img src="https://via.placeholder.com/400x225/FF00FF/FFFFFF?text=Konfrontasi+Final" alt="Klip 5"></div>
-                <div class="card"><img src="https://via.placeholder.com/400x225/00FFFF/000000?text=Twist+Ending" alt="Klip 6"></div>
-                <div class="card"><img src="https://via.placeholder.com/400x225/FFA500/FFFFFF?text=Adegan+Kejar-kejaran" alt="Klip 7"></div>
+            <h2 class="carousel-title">Sedang Tren Minggu Ini</h2>
+            <div class="carousel-container" id="trending-carousel">
+                <!-- Poster akan diisi oleh JavaScript -->
             </div>
 
-            <!-- --- Carousel 2: Bertemu Para Bintang --- -->
-            <h2 class="carousel-title" style="margin-top: 40px;">Bertemu Para Bintang</h2>
-            <div class="carousel-container">
-                <!-- GANTI SEMUA GAMBAR DI BAWAH INI -->
-                <div class="card card-actor">
-                    <img src="https://via.placeholder.com/300x450/7d7d7d/FFFFFF?text=Aktor+Utama" alt="Aktor 1">
-                    <div class="card-title">Nama Aktor 1</div>
-                </div>
-                <div class="card card-actor">
-                    <img src="https://via.placeholder.com/300x450/7d7d7d/FFFFFF?text=Aktris+Utama" alt="Aktor 2">
-                    <div class="card-title">Nama Aktris 2</div>
-                </div>
-                <div class="card card-actor">
-                    <img src="https://via.placeholder.com/300x450/7d7d7d/FFFFFF?text=Aktor+Pendukung" alt="Aktor 3">
-                    <div class="card-title">Nama Aktor 3</div>
-                </div>
-                <div class="card card-actor">
-                    <img src="https://via.placeholder.com/300x450/7d7d7d/FFFFFF?text=Antagonis" alt="Aktor 4">
-                    <div class="card-title">Nama Aktor 4</div>
-                </div>
-                <div class="card card-actor">
-                    <img src="https://via.placeholder.com/300x450/7d7d7d/FFFFFF?text=Pemeran+Lain" alt="Aktor 5">
-                    <div class="card-title">Nama Aktris 5</div>
-                </div>
-                <div class="card card-actor">
-                    <img src="https://via.placeholder.com/300x450/7d7d7d/FFFFFF?text=Pemeran+Lain" alt="Aktor 6">
-                    <div class="card-title">Nama Aktor 6</div>
-                </div>
+            <h2 class="carousel-title" style="margin-top: 40px;">Peringkat Teratas</h2>
+            <div class="carousel-container" id="top-rated-carousel">
+                <!-- Poster akan diisi oleh JavaScript -->
             </div>
 
-            <!-- --- Carousel 3: Di Balik Layar --- -->
-            <h2 class="carousel-title" style="margin-top: 40px;">Di Balik Layar</h2>
-            <div class="carousel-container">
-                <!-- GANTI SEMUA GAMBAR DI BAWAH INI -->
-                <div class="card"><img src="https://via.placeholder.com/400x225/556B2F/FFFFFF?text=Sutradara+Beraksi" alt="BTS 1"></div>
-                <div class="card"><img src="https://via.placeholder.com/400x225/8B4513/FFFFFF?text=Set+Lokasi" alt="BTS 2"></div>
-                <div class="card"><img src="https://via.placeholder.com/400x225/4682B4/FFFFFF?text=Kru+Kamera" alt="BTS 3"></div>
-                <div class="card"><img src="https://via.placeholder.com/400x225/2E8B57/FFFFFF?text=Aktor+Tertawa" alt="BTS 4"></div>
-                <div class="card"><img src="https://via.placeholder.com/400x225/6A5ACD/FFFFFF?text=Special+Effects" alt="BTS 5"></div>
+            <h2 class="carousel-title" style="margin-top: 40px;">Akan Datang</h2>
+            <div class="carousel-container" id="upcoming-carousel">
+                <!-- Poster akan diisi oleh JavaScript -->
             </div>
-
         </section>
+
+        <div class="tmdb-logo">
+            <p style="color: #757575; margin-bottom: 10px;">Data film ini dipersembahkan oleh:</p>
+            <a href="https://www.themoviedb.org/" target="_blank">
+                <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg" alt="The Movie Database">
+            </a>
+        </div>
     </main>
 
-    <footer class="main-footer">
-        <ul class="footer-links">
-            <li><a href="#">Tanya Jawab</a></li>
-            <li><a href="#">Hubungi Kami</a></li>
-            <li><a href="#">Pusat Media</a></li>
-            <li><a href="#">Syarat Penggunaan</a></li>
-            <li><a href="#">Privasi</a></li>
-            <li><a href="#">Preferensi Cookie</a></li>
-            <li><a href="#">Informasi Perusahaan</a></li>
-        </ul>
-        <p class="footer-copy">© 2025 [Nama Studio Film Anda]</p>
-    </footer>
 
+    <!-- ============== JAVASCRIPT LOGIC ============== -->
+    <script>
+        // --- KONFIGURASI PENTING ---
+        // GANTI DENGAN API KEY ANDA YANG SEBENARNYA!
+        const API_KEY = 'bda883e3019106157c9a9c5cfe3921bb'; 
+        const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
+
+        // --- ELEMEN DOM ---
+        const heroBgImg = document.getElementById('hero-bg-img');
+        const heroTitle = document.getElementById('hero-title');
+        const heroSynopsis = document.getElementById('hero-synopsis');
+
+        // Fungsi untuk mengambil data film dari TMDb
+        async function fetchMovies(endpoint) {
+            const url = `https://api.themoviedb.org/3/${endpoint}?api_key=${API_KEY}&language=id-ID&page=1`;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                return data.results;
+            } catch (error) {
+                console.error("Gagal mengambil data film:", error);
+                return []; // Kembalikan array kosong jika gagal
+            }
+        }
+
+        // Fungsi untuk membuat dan menampilkan kartu film di carousel
+        function populateCarousel(carouselId, movies) {
+            const carouselContainer = document.getElementById(carouselId);
+            if (!carouselContainer) return;
+
+            // Kosongkan kontainer sebelum mengisi
+            carouselContainer.innerHTML = ''; 
+
+            movies.forEach(movie => {
+                // Jangan tampilkan film tanpa poster
+                if (movie.poster_path) {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+
+                    const img = document.createElement('img');
+                    img.src = `${IMAGE_BASE_URL}w500${movie.poster_path}`;
+                    img.alt = movie.title;
+
+                    card.appendChild(img);
+                    carouselContainer.appendChild(card);
+                }
+            });
+        }
+        
+        // Fungsi untuk mengatur Hero Section dengan film pertama dari list
+        function setHeroSection(movies) {
+            if (movies.length > 0) {
+                const heroMovie = movies[0];
+                heroBgImg.src = `${IMAGE_BASE_URL}original${heroMovie.backdrop_path}`;
+                heroTitle.textContent = heroMovie.title;
+                heroSynopsis.textContent = heroMovie.overview;
+            }
+        }
+
+        // Fungsi utama yang dijalankan saat halaman dimuat
+        async function initializePage() {
+            // Ambil data untuk setiap kategori
+            const trendingMovies = await fetchMovies('trending/movie/week');
+            const topRatedMovies = await fetchMovies('movie/top_rated');
+            const upcomingMovies = await fetchMovies('movie/upcoming');
+
+            // Atur Hero Section menggunakan data film trending
+            setHeroSection(trendingMovies);
+
+            // Isi setiap carousel dengan data yang sesuai
+            populateCarousel('trending-carousel', trendingMovies);
+            populateCarousel('top-rated-carousel', topRatedMovies);
+            populateCarousel('upcoming-carousel', upcomingMovies);
+        }
+
+        // Jalankan semuanya!
+        document.addEventListener('DOMContentLoaded', initializePage);
+
+    </script>
 </body>
 </html>
