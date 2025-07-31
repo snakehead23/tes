@@ -1,70 +1,110 @@
-/* style.css (REVISI TOTAL UNTUK MENDUKUNG DETAIL BARU) */
+/* style.css (Revisi Total untuk Halaman Utama dan Detail) */
 
-/* ... (Simpan gaya lama Anda untuk index.html jika perlu) ... */
+/* ---------------------------------- */
+/*          GAYA DASAR & GLOBAL       */
+/* ---------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* Gaya Baru untuk Halaman Detail */
 body {
     background-color: #141414;
     color: #fff;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    margin: 0;
+    line-height: 1.4;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .loading {
-    padding: 50px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
     font-size: 1.5rem;
+    color: #ccc;
 }
 
+/* ---------------------------------- */
+/*          HERO DETAIL PAGE          */
+/* ---------------------------------- */
 .movie-detail-hero {
-    display: flex;
-    flex-direction: column;
-    padding: 60px 5%;
+    display: flex; /* Menggunakan flexbox untuk alignment */
+    align-items: center; /* Vertically center the content */
+    padding: 100px 5%; /* Padding atas/bawah dan samping */
     background-size: cover;
-    background-position: center center;
+    background-position: center top; /* Fokus pada bagian atas gambar */
     position: relative;
     min-height: 80vh;
 }
 
+/* Lapisan gradien gelap di atas gambar latar */
 .movie-detail-hero::before {
     content: '';
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: linear-gradient(to right, rgba(20, 20, 20, 1) 30%, rgba(20, 20, 20, 0.6) 100%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(20, 20, 20, 1) 25%, rgba(20, 20, 20, 0.7) 50%, rgba(20, 20, 20, 0.4) 100%);
 }
 
+/* Kontainer untuk poster dan teks detail agar berada di atas lapisan gradien */
 .movie-detail-hero > div {
     position: relative;
     z-index: 2;
     display: flex;
     align-items: flex-start;
-    gap: 40px;
+    gap: 40px; /* Jarak antara poster dan teks */
 }
 
 .poster-box img {
-    width: 250px;
+    width: 280px;
+    max-width: 40vw; /* Agar tidak terlalu besar di layar kecil */
     height: auto;
     border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .detail-box h1 {
     font-size: 3.5rem;
+    font-weight: bold;
     margin: 0 0 20px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .meta-info {
     display: flex;
-    gap: 20px;
+    flex-wrap: wrap; /* Agar bisa pindah baris di layar kecil */
+    gap: 25px;
     margin-bottom: 20px;
     color: #ccc;
+    font-size: 1rem;
 }
-.meta-info span { display: flex; align-items: center; gap: 8px; }
+
+.meta-info span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.meta-info .fa-star {
+    color: #f5c518;
+}
+
+.genres {
+    margin: 20px 0;
+}
 
 .genres .genre-tag {
-    background: rgba(255,255,255,0.1);
-    padding: 5px 10px;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 20px;
     font-size: 0.9rem;
     margin-right: 10px;
     margin-bottom: 10px;
@@ -81,48 +121,66 @@ body {
 .action-buttons {
     margin-top: 30px;
     display: flex;
+    flex-wrap: wrap;
     gap: 15px;
 }
+
 .action-btn {
-    padding: 15px 30px;
+    padding: 15px 25px;
     border-radius: 5px;
     text-decoration: none;
     color: #fff;
     font-weight: bold;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     border: none;
     cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s, background-color 0.2s;
+}
+.action-btn:hover {
+    transform: scale(1.05);
 }
 .play-btn { background-color: #E50914; }
 .watchlist-btn { background-color: rgba(109, 109, 110, 0.7); }
 .watchlist-btn.active { background-color: #46d369; }
 .download-btn { background-color: #007bff; }
 
+
+/* ---------------------------------- */
+/*   KONTEN UTAMA (TRAILER, DLL)      */
+/* ---------------------------------- */
 .detail-main-content {
-    padding: 0 5%;
+    padding: 0 5% 50px 5%;
 }
 
 .content-section {
     margin-bottom: 50px;
 }
+
 .content-section h2 {
     font-size: 2rem;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     border-left: 4px solid #E50914;
     padding-left: 15px;
 }
 
 #trailer-container {
     position: relative;
-    padding-bottom: 56.25%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
     height: 0;
+    overflow: hidden;
+    border-radius: 8px;
 }
 #trailer-container iframe {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 .actors-grid, .movie-grid {
@@ -130,61 +188,146 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 20px;
 }
-.actor-card { text-align: center; }
+
+.actor-card {
+    text-align: center;
+}
 .actor-card img {
     width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
     border-radius: 8px;
     margin-bottom: 10px;
 }
 .actor-card h3 { font-size: 1rem; margin: 5px 0; }
 .actor-card p { font-size: 0.8rem; color: #ccc; margin: 0; }
-.movie-card { text-decoration: none; color: #fff; }
-.movie-card img { width: 100%; border-radius: 8px; }
-.movie-card h3 { font-size: 1rem; margin-top: 10px; }
 
-/* Modal Styles */
+.movie-card {
+    text-decoration: none;
+    color: #fff;
+    transition: transform 0.2s;
+}
+.movie-card:hover {
+    transform: scale(1.05);
+}
+.movie-card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.movie-card h3 {
+    font-size: 1rem;
+    margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ---------------------------------- */
+/*        GAYA MODAL POPUP            */
+/* ---------------------------------- */
 .modal-container {
     display: none;
     position: fixed;
     z-index: 1000;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0,0,0,0.85);
     align-items: center;
     justify-content: center;
 }
+
 .modal-content {
     position: relative;
     background: #181818;
     padding: 20px;
     border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
 }
+
 .video-player-content {
-    width: 90%;
+    width: 95%;
     height: 90%;
     padding: 0;
+    background: #000;
 }
+
 #movie-iframe {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     border: none;
 }
+
 .close-modal-btn {
     position: absolute;
-    top: 10px; right: 20px;
-    font-size: 40px;
-    color: #fff;
-    background: none;
+    top: -15px;
+    right: -15px;
+    font-size: 25px;
+    line-height: 40px;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    color: #000;
+    background: #fff;
     border: none;
+    border-radius: 50%;
     cursor: pointer;
     z-index: 1001;
 }
+
 .ad-timer-content {
     text-align: center;
     padding: 40px;
+    max-width: 500px;
 }
+
+.ad-timer-content h2 {
+    margin-bottom: 15px;
+}
+
+.ad-timer-content p {
+    color: #ccc;
+    margin-bottom: 25px;
+}
+
 #ad-timer-countdown span {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #E50914;
     font-weight: bold;
 }
-#ad-timer-continue-btn { display: none; margin-top: 20px; }
+
+#ad-timer-continue-btn {
+    display: none;
+    margin-top: 20px;
+    background-color: #46d369;
+}
+
+
+/* ---------------------------------- */
+/*        TAMPILAN RESPONSIVE         */
+/* ---------------------------------- */
+@media (max-width: 768px) {
+    .movie-detail-hero > div {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .detail-box h1 {
+        font-size: 2.5rem;
+    }
+    .overview {
+        max-width: 100%;
+    }
+    .action-buttons, .meta-info, .genres {
+        justify-content: center;
+    }
+    .actors-grid, .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    .content-section h2 {
+        font-size: 1.5rem;
+    }
+}
