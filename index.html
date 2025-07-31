@@ -3,123 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cari Film | Didukung oleh TMDb</title>
-    <style>
-        /* CSS DARI CONTOH SEBELUMNYA */
-        :root {
-            --netflix-red: #E50914;
-            --netflix-dark-gray: #141414;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background-color: var(--netflix-dark-gray);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            color: white;
-            overflow-x: hidden;
-        }
-        .main-header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            padding: 20px 50px; z-index: 100;
-            background-image: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0));
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo-img { width: 120px; }
-        
-        /* --- STYLING BARU UNTUK PENCARIAN --- */
-        .search-container {
-            display: flex;
-            align-items: center;
-        }
-        #search-icon {
-            cursor: pointer;
-            width: 24px;
-            height: 24px;
-        }
-        #search-input {
-            width: 0;
-            opacity: 0;
-            border: 1px solid white;
-            background: rgba(0,0,0,0.75);
-            color: white;
-            padding: 5px 0;
-            font-size: 1rem;
-            transition: width 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
-            margin-left: 10px;
-            border-radius: 4px;
-        }
-        #search-input.active {
-            width: 250px;
-            opacity: 1;
-            padding: 5px 10px;
-        }
-
-        .hero {
-            position: relative; height: 90vh;
-            display: flex; align-items: center; justify-content: flex-start;
-        }
-        .hero-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: 1;
-        }
-        .hero::after {
-            content: ''; position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.8) 30%, transparent 70%), linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 50%);
-            z-index: 2;
-        }
-        .hero-content {
-            position: relative; z-index: 3;
-            padding: 50px; max-width: 600px;
-        }
-        .hero-title { font-size: 4rem; margin-bottom: 20px; }
-        .hero-synopsis { font-size: 1.1rem; line-height: 1.5; margin-bottom: 30px; max-width: 500px; }
-        .hero-buttons .btn {
-            padding: 15px 30px; font-size: 1.2rem; border-radius: 4px; border: none; margin-right: 15px;
-            cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center;
-        }
-        .btn-play { background-color: white; color: black; }
-        .btn-info { background-color: rgba(109, 109, 110, 0.7); color: white; }
-        .btn svg { margin-right: 10px; }
-        
-        #main-content {
-            margin-top: -150px;
-            position: relative;
-            z-index: 5;
-            padding: 0 50px;
-        }
-        .carousel-title { font-size: 1.8rem; font-weight: bold; margin-bottom: 20px; }
-        .carousel-container {
-            display: flex; overflow-x: auto; overflow-y: hidden; padding-bottom: 20px;
-            scrollbar-width: none;
-        }
-        .carousel-container::-webkit-scrollbar { display: none; }
-        .card {
-            flex: 0 0 16%; margin-right: 10px; border-radius: 4px; overflow: hidden;
-            cursor: pointer; transition: transform 0.2s ease-in-out;
-        }
-        .card:hover { transform: scale(1.1); }
-        .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        
-        /* --- STYLING BARU UNTUK HASIL PENCARIAN --- */
-        #search-results-section {
-            display: none; /* Sembunyikan secara default */
-            padding: 50px;
-            margin-top: 80px; /* Jarak dari header */
-        }
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-        }
-        .results-grid .card {
-            flex-basis: auto; /* Reset flex-basis untuk grid */
-        }
-        
-        .tmdb-logo { padding: 50px; text-align: center; }
-        .tmdb-logo img { width: 150px; }
-    </style>
+    <title>Jelajahi Film | Didukung oleh TMDb</title>
+    <!-- Memuat file CSS eksternal -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -134,7 +20,6 @@
     </header>
 
     <main>
-        <!-- HERO SECTION TIDAK BERUBAH -->
         <section class="hero">
             <img src="" alt="Hero Background" class="hero-bg" id="hero-bg-img">
             <div class="hero-content">
@@ -147,7 +32,6 @@
             </div>
         </section>
 
-        <!-- KONTEN UTAMA (CAROUSEL) -->
         <div id="main-content">
             <section class="carousel-section">
                 <h2 class="carousel-title">Sedang Tren Minggu Ini</h2>
@@ -159,12 +43,9 @@
             </section>
         </div>
 
-        <!-- HASIL PENCARIAN -->
         <section id="search-results-section">
             <h2 class="carousel-title">Hasil Pencarian</h2>
-            <div class="results-grid" id="search-results-grid">
-                <!-- Hasil pencarian akan diisi oleh JavaScript -->
-            </div>
+            <div class="results-grid" id="search-results-grid"></div>
         </section>
 
         <div class="tmdb-logo">
@@ -175,128 +56,17 @@
         </div>
     </main>
 
-    <!-- ============== JAVASCRIPT LOGIC DENGAN PENCARIAN ============== -->
-    <script>
-        // --- KONFIGURASI PENTING ---
-        const API_KEY = 'bda883e3019106157c9a9c5cfe3921bb'; 
-        const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
+    <!-- ============== MODAL UNTUK DETAIL FILM ============== -->
+    <div id="movie-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">×</span>
+            <div id="modal-body">
+                <!-- Konten detail film akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
 
-        // --- ELEMEN DOM ---
-        const heroBgImg = document.getElementById('hero-bg-img');
-        const heroTitle = document.getElementById('hero-title');
-        const heroSynopsis = document.getElementById('hero-synopsis');
-        const searchIcon = document.getElementById('search-icon');
-        const searchInput = document.getElementById('search-input');
-        const mainContent = document.getElementById('main-content');
-        const searchResultsSection = document.getElementById('search-results-section');
-        const searchResultsGrid = document.getElementById('search-results-grid');
-
-        // --- FUNGSI API ---
-        async function fetchMovies(endpoint) {
-            const url = `https://api.themoviedb.org/3/${endpoint}?api_key=${API_KEY}&language=id-ID&page=1`;
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
-                return data.results;
-            } catch (error) {
-                console.error("Gagal mengambil data film:", error);
-                return [];
-            }
-        }
-
-        async function searchMovies(query) {
-            if (!query) return [];
-            const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&language=id-ID&page=1`;
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
-                return data.results;
-            } catch (error) {
-                console.error("Gagal mencari film:", error);
-                return [];
-            }
-        }
-
-        // --- FUNGSI TAMPILAN ---
-        function populateCarousel(carouselId, movies) {
-            const carouselContainer = document.getElementById(carouselId);
-            if (!carouselContainer) return;
-            carouselContainer.innerHTML = ''; 
-            movies.forEach(movie => {
-                if (movie.poster_path) {
-                    const card = document.createElement('div');
-                    card.classList.add('card');
-                    const img = document.createElement('img');
-                    img.src = `${IMAGE_BASE_URL}w500${movie.poster_path}`;
-                    img.alt = movie.title;
-                    card.appendChild(img);
-                    carouselContainer.appendChild(card);
-                }
-            });
-        }
-        
-        function setHeroSection(movies) {
-            if (movies && movies.length > 0) {
-                const heroMovie = movies[0];
-                heroBgImg.src = `${IMAGE_BASE_URL}original${heroMovie.backdrop_path}`;
-                heroTitle.textContent = heroMovie.title;
-                heroSynopsis.textContent = heroMovie.overview;
-            }
-        }
-        
-        function displaySearchResults(movies) {
-            searchResultsGrid.innerHTML = ''; // Kosongkan hasil sebelumnya
-            if (movies.length === 0) {
-                searchResultsGrid.innerHTML = '<p>Tidak ada hasil yang ditemukan.</p>';
-                return;
-            }
-            movies.forEach(movie => {
-                if (movie.poster_path) {
-                    const card = document.createElement('div');
-                    card.classList.add('card');
-                    const img = document.createElement('img');
-                    img.src = `${IMAGE_BASE_URL}w500${movie.poster_path}`;
-                    img.alt = movie.title;
-                    card.appendChild(img);
-                    searchResultsGrid.appendChild(card);
-                }
-            });
-        }
-
-        // --- EVENT LISTENERS ---
-        searchIcon.addEventListener('click', () => {
-            searchInput.classList.toggle('active');
-            searchInput.focus();
-        });
-
-        searchInput.addEventListener('keyup', async (event) => {
-            const query = event.target.value.trim();
-            if (query) {
-                mainContent.style.display = 'none';
-                searchResultsSection.style.display = 'block';
-                const results = await searchMovies(query);
-                displaySearchResults(results);
-            } else {
-                mainContent.style.display = 'block';
-                searchResultsSection.style.display = 'none';
-            }
-        });
-
-        // --- INISIALISASI HALAMAN ---
-        async function initializePage() {
-            const trendingMovies = await fetchMovies('trending/movie/week');
-            const topRatedMovies = await fetchMovies('movie/top_rated');
-            const upcomingMovies = await fetchMovies('movie/upcoming');
-
-            setHeroSection(trendingMovies);
-            populateCarousel('trending-carousel', trendingMovies);
-            populateCarousel('top-rated-carousel', topRatedMovies);
-            populateCarousel('upcoming-carousel', upcomingMovies);
-        }
-
-        document.addEventListener('DOMContentLoaded', initializePage);
-    </script>
+    <!-- Memuat file JavaScript eksternal -->
+    <script src="script.js" defer></script>
 </body>
 </html>
