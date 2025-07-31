@@ -1,4 +1,4 @@
-/* style.css (Revisi Total untuk Halaman Utama dan Detail) */
+/* style.css (Revisi Total - Gabungan untuk Halaman Utama & Detail) */
 
 /* ---------------------------------- */
 /*          GAYA DASAR & GLOBAL       */
@@ -14,6 +14,7 @@ body {
     color: #fff;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.4;
+    overflow-x: hidden; /* Mencegah scroll horizontal */
 }
 
 a {
@@ -30,304 +31,206 @@ a {
     color: #ccc;
 }
 
-/* ---------------------------------- */
-/*          HERO DETAIL PAGE          */
-/* ---------------------------------- */
-.movie-detail-hero {
-    display: flex; /* Menggunakan flexbox untuk alignment */
-    align-items: center; /* Vertically center the content */
-    padding: 100px 5%; /* Padding atas/bawah dan samping */
-    background-size: cover;
-    background-position: center top; /* Fokus pada bagian atas gambar */
-    position: relative;
-    min-height: 80vh;
-}
 
-/* Lapisan gradien gelap di atas gambar latar */
-.movie-detail-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(20, 20, 20, 1) 25%, rgba(20, 20, 20, 0.7) 50%, rgba(20, 20, 20, 0.4) 100%);
+/* ---------------------------------- */
+/*       GAYA HALAMAN UTAMA (index.html)      */
+/* ---------------------------------- */
+/* Header Halaman Utama */
+.main-header {
+    position: fixed; top: 0; left: 0; width: 100%;
+    padding: 20px 50px; z-index: 100;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0));
+    display: flex; justify-content: space-between; align-items: center;
 }
+.logo-img { width: 120px; }
 
-/* Kontainer untuk poster dan teks detail agar berada di atas lapisan gradien */
-.movie-detail-hero > div {
-    position: relative;
+/* Pencarian di Header */
+.search-container { display: flex; align-items: center; }
+#search-icon { cursor: pointer; width: 24px; height: 24px; }
+#search-input {
+    width: 0; opacity: 0; border: 1px solid white; background: rgba(0,0,0,0.75);
+    color: white; padding: 5px 0; font-size: 1rem;
+    transition: width 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
+    margin-left: 10px; border-radius: 4px;
+}
+#search-input.active { width: 250px; opacity: 1; padding: 5px 10px; }
+
+/* Hero Section Halaman Utama */
+.hero {
+    position: relative; height: 90vh;
+    display: flex; align-items: center; justify-content: flex-start;
+}
+.hero-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 1;
+}
+.hero::after {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.8) 30%, transparent 70%), linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 50%);
     z-index: 2;
-    display: flex;
-    align-items: flex-start;
-    gap: 40px; /* Jarak antara poster dan teks */
 }
+.hero-content {
+    position: relative; z-index: 3;
+    padding: 50px; max-width: 600px;
+}
+.hero-title { font-size: 4rem; margin-bottom: 20px; }
+.hero-synopsis { font-size: 1.1rem; line-height: 1.5; margin-bottom: 30px; max-width: 500px; }
 
-.poster-box img {
-    width: 280px;
-    max-width: 40vw; /* Agar tidak terlalu besar di layar kecil */
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+/* Carousel Poster Halaman Utama */
+#main-content {
+    margin-top: -150px; position: relative;
+    z-index: 5; padding: 0 50px;
 }
+.carousel-section { padding-bottom: 50px; }
+.carousel-title { font-size: 1.8rem; font-weight: bold; margin: 40px 0 20px 0; }
+.carousel-container {
+    display: flex; overflow-x: auto; overflow-y: hidden; padding-bottom: 20px;
+    scrollbar-width: none; /* Firefox */
+}
+.carousel-container::-webkit-scrollbar { display: none; /* Chrome, Safari */ }
+.card {
+    flex: 0 0 16%; margin-right: 10px; border-radius: 4px; overflow: hidden;
+    cursor: pointer; transition: transform 0.2s ease-in-out;
+}
+.card:hover { transform: scale(1.08); }
+.card img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-.detail-box h1 {
-    font-size: 3.5rem;
-    font-weight: bold;
-    margin: 0 0 20px 0;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+/* Hasil Pencarian Halaman Utama */
+#search-results-section {
+    display: none; padding: 50px; margin-top: 80px;
 }
-
-.meta-info {
-    display: flex;
-    flex-wrap: wrap; /* Agar bisa pindah baris di layar kecil */
-    gap: 25px;
-    margin-bottom: 20px;
-    color: #ccc;
-    font-size: 1rem;
-}
-
-.meta-info span {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.meta-info .fa-star {
-    color: #f5c518;
-}
-
-.genres {
-    margin: 20px 0;
-}
-
-.genres .genre-tag {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    display: inline-block;
-}
-
-.overview {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 700px;
-    margin: 20px 0;
-}
-
-.action-buttons {
-    margin-top: 30px;
-    display: flex;
-    flex-wrap: wrap;
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 15px;
 }
+.results-grid .card { flex-basis: auto; }
 
+
+/* ---------------------------------- */
+/*      GAYA HALAMAN DETAIL (detail.html)      */
+/* ---------------------------------- */
+.movie-detail-hero {
+    display: flex; align-items: center; padding: 100px 5%;
+    background-size: cover; background-position: center top; position: relative; min-height: 80vh;
+}
+.movie-detail-hero::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to right, rgba(20, 20, 20, 1) 25%, rgba(20, 20, 20, 0.7) 50%, rgba(20, 20, 20, 0.4) 100%);
+}
+.movie-detail-hero > div {
+    position: relative; z-index: 2; display: flex; align-items: flex-start; gap: 40px;
+}
+.poster-box img {
+    width: 280px; max-width: 40vw; height: auto; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.detail-box h1 {
+    font-size: 3.5rem; font-weight: bold; margin: 0 0 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+.meta-info {
+    display: flex; flex-wrap: wrap; gap: 25px; margin-bottom: 20px; color: #ccc; font-size: 1rem;
+}
+.meta-info span { display: flex; align-items: center; gap: 8px; }
+.meta-info .fa-star { color: #f5c518; }
+.genres { margin: 20px 0; }
+.genres .genre-tag {
+    background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 12px; border-radius: 20px; font-size: 0.9rem; margin-right: 10px;
+    margin-bottom: 10px; display: inline-block;
+}
+.overview { font-size: 1.1rem; line-height: 1.6; max-width: 700px; margin: 20px 0; }
+.action-buttons {
+    margin-top: 30px; display: flex; flex-wrap: wrap; gap: 15px;
+}
 .action-btn {
-    padding: 15px 25px;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
+    padding: 15px 25px; border-radius: 5px; text-decoration: none; color: #fff;
+    font-weight: bold; display: inline-flex; align-items: center; justify-content: center;
+    gap: 10px; border: none; cursor: pointer; font-size: 1rem;
     transition: transform 0.2s, background-color 0.2s;
 }
-.action-btn:hover {
-    transform: scale(1.05);
-}
+.action-btn:hover { transform: scale(1.05); }
 .play-btn { background-color: #E50914; }
 .watchlist-btn { background-color: rgba(109, 109, 110, 0.7); }
 .watchlist-btn.active { background-color: #46d369; }
 .download-btn { background-color: #007bff; }
 
-
-/* ---------------------------------- */
-/*   KONTEN UTAMA (TRAILER, DLL)      */
-/* ---------------------------------- */
-.detail-main-content {
-    padding: 0 5% 50px 5%;
-}
-
-.content-section {
-    margin-bottom: 50px;
-}
-
+/* Konten Tambahan Halaman Detail */
+.detail-main-content { padding: 0 5% 50px 5%; }
+.content-section { margin-bottom: 50px; }
 .content-section h2 {
-    font-size: 2rem;
-    margin-bottom: 25px;
-    border-left: 4px solid #E50914;
-    padding-left: 15px;
+    font-size: 2rem; margin-bottom: 25px; border-left: 4px solid #E50914; padding-left: 15px;
 }
-
 #trailer-container {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-    height: 0;
-    overflow: hidden;
-    border-radius: 8px;
+    position: relative; padding-bottom: 56.25%; height: 0;
+    overflow: hidden; border-radius: 8px;
 }
 #trailer-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
 }
-
 .actors-grid, .movie-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px;
 }
-
-.actor-card {
-    text-align: center;
-}
+.actor-card { text-align: center; }
 .actor-card img {
-    width: 100%;
-    aspect-ratio: 2/3;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    width: 100%; aspect-ratio: 2/3; object-fit: cover;
+    border-radius: 8px; margin-bottom: 10px;
 }
 .actor-card h3 { font-size: 1rem; margin: 5px 0; }
 .actor-card p { font-size: 0.8rem; color: #ccc; margin: 0; }
-
-.movie-card {
-    text-decoration: none;
-    color: #fff;
-    transition: transform 0.2s;
-}
-.movie-card:hover {
-    transform: scale(1.05);
-}
-.movie-card img {
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
-.movie-card h3 {
-    font-size: 1rem;
-    margin-top: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+.movie-card { text-decoration: none; color: #fff; transition: transform 0.2s; }
+.movie-card:hover { transform: scale(1.05); }
+.movie-card img { width: 100%; border-radius: 8px; margin-bottom: 10px; }
+.movie-card h3 { font-size: 1rem; margin-top: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 
 /* ---------------------------------- */
-/*        GAYA MODAL POPUP            */
+/*        GAYA MODAL (Popup)        */
 /* ---------------------------------- */
 .modal-container {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.85);
-    align-items: center;
-    justify-content: center;
+    display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+    width: 100%; height: 100%; background-color: rgba(0,0,0,0.85);
+    align-items: center; justify-content: center;
 }
-
 .modal-content {
-    position: relative;
-    background: #181818;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    position: relative; background: #181818; padding: 20px;
+    border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.7);
 }
-
 .video-player-content {
-    width: 95%;
-    height: 90%;
-    padding: 0;
-    background: #000;
+    width: 95%; height: 90%; padding: 0; background: #000;
 }
-
-#movie-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
+#movie-iframe { width: 100%; height: 100%; border: none; }
 .close-modal-btn {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    font-size: 25px;
-    line-height: 40px;
-    text-align: center;
-    width: 40px;
-    height: 40px;
-    color: #000;
-    background: #fff;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 1001;
+    position: absolute; top: -15px; right: -15px; font-size: 25px;
+    line-height: 40px; text-align: center; width: 40px; height: 40px;
+    color: #000; background: #fff; border: none; border-radius: 50%;
+    cursor: pointer; z-index: 1001;
 }
-
-.ad-timer-content {
-    text-align: center;
-    padding: 40px;
-    max-width: 500px;
-}
-
-.ad-timer-content h2 {
-    margin-bottom: 15px;
-}
-
-.ad-timer-content p {
-    color: #ccc;
-    margin-bottom: 25px;
-}
-
-#ad-timer-countdown span {
-    font-size: 1.8rem;
-    color: #E50914;
-    font-weight: bold;
-}
-
-#ad-timer-continue-btn {
-    display: none;
-    margin-top: 20px;
-    background-color: #46d369;
-}
+.ad-timer-content { text-align: center; padding: 40px; max-width: 500px; }
+.ad-timer-content h2 { margin-bottom: 15px; }
+.ad-timer-content p { color: #ccc; margin-bottom: 25px; }
+#ad-timer-countdown span { font-size: 1.8rem; color: #E50914; font-weight: bold; }
+#ad-timer-continue-btn { display: none; margin-top: 20px; background-color: #46d369; }
 
 
 /* ---------------------------------- */
 /*        TAMPILAN RESPONSIVE         */
 /* ---------------------------------- */
 @media (max-width: 768px) {
+    /* Responsive untuk Halaman Utama */
+    .main-header { padding: 15px 20px; }
+    .hero-content { padding: 20px; }
+    #main-content { padding: 0 20px; }
+    .card { flex-basis: 30%; } /* Lebih banyak kartu per baris di mobile */
+
+    /* Responsive untuk Halaman Detail */
     .movie-detail-hero > div {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        flex-direction: column; align-items: center; text-align: center;
     }
-    .detail-box h1 {
-        font-size: 2.5rem;
-    }
-    .overview {
-        max-width: 100%;
-    }
-    .action-buttons, .meta-info, .genres {
-        justify-content: center;
-    }
-    .actors-grid, .movie-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    }
-    .content-section h2 {
-        font-size: 1.5rem;
-    }
+    .detail-box h1 { font-size: 2.5rem; }
+    .overview { max-width: 100%; }
+    .action-buttons, .meta-info, .genres { justify-content: center; }
+    .actors-grid, .movie-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    .content-section h2 { font-size: 1.5rem; }
 }
