@@ -1,0 +1,78 @@
+<!-- detail.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memuat Detail Film...</title>
+    <!-- Kita bisa menggunakan style.css yang sama, atau buat yang baru -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Style tambahan khusus untuk halaman detail */
+        body {
+            background-color: #000; /* Latar belakang hitam pekat */
+        }
+        .detail-container {
+            padding: 100px 50px 50px 50px;
+        }
+        .player-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            margin-bottom: 30px;
+            background-color: #000;
+        }
+        .player-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .detail-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .detail-meta {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .detail-synopsis {
+            max-width: 800px;
+            line-height: 1.7;
+            color: #e5e5e5;
+        }
+        .loading-text {
+            text-align: center;
+            font-size: 2rem;
+            margin-top: 20%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="detail-container" id="detail-content" style="display: none;">
+        <!-- Player Video akan di-embed di sini -->
+        <div class="player-wrapper">
+            <iframe 
+                id="movie-player" 
+                src="" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        
+        <!-- Info Detail Film -->
+        <h1 id="detail-title" class="detail-title"></h1>
+        <p id="detail-meta" class="detail-meta"></p>
+        <p id="detail-synopsis" class="detail-synopsis"></p>
+    </div>
+
+    <div id="loading" class="loading-text">
+        <p>Memuat Film...</p>
+    </div>
+
+    <!-- Script khusus untuk halaman ini -->
+    <script src="detail.js"></script>
+</body>
+</html>
